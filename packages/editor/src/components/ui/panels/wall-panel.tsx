@@ -3,12 +3,14 @@
 import { type AnyNode, type AnyNodeId, type MaterialSchema, useScene, type WallNode } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { useCallback } from 'react'
+import { useI18n } from '../../../lib/i18n'
 import { MaterialPicker } from '../controls/material-picker'
 import { PanelSection } from '../controls/panel-section'
 import { SliderControl } from '../controls/slider-control'
 import { PanelWrapper } from './panel-wrapper'
 
 export function WallPanel() {
+  const { t } = useI18n()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -67,12 +69,12 @@ export function WallPanel() {
     <PanelWrapper
       icon="/icons/wall.png"
       onClose={handleClose}
-      title={node.name || 'Wall'}
+      title={node.name || t('panels.wall.title')}
       width={280}
     >
-      <PanelSection title="Dimensions">
+      <PanelSection title={t('panels.wall.dimensions')}>
         <SliderControl
-          label="Length"
+          label={t('panels.wall.length')}
           max={20}
           min={0.1}
           onChange={handleUpdateLength}
@@ -82,7 +84,7 @@ export function WallPanel() {
           value={length}
         />
         <SliderControl
-          label="Height"
+          label={t('panels.wall.height')}
           max={6}
           min={0.1}
           onChange={(v) => handleUpdate({ height: Math.max(0.1, v) })}
@@ -92,7 +94,7 @@ export function WallPanel() {
           value={Math.round(height * 100) / 100}
         />
         <SliderControl
-          label="Thickness"
+          label={t('panels.wall.thickness')}
           max={1}
           min={0.05}
           onChange={(v) => handleUpdate({ thickness: Math.max(0.05, v) })}
@@ -103,7 +105,7 @@ export function WallPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Material">
+      <PanelSection title={t('panels.wall.material')}>
         <MaterialPicker
           onChange={handleMaterialChange}
           value={node.material}

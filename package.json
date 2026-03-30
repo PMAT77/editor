@@ -33,5 +33,8 @@
     "apps/*",
     "packages/*",
     "tooling/*"
-  ]
+  ],
+  "dependencies": {
+    "next-intl": "^4.8.3"
+  }
 }

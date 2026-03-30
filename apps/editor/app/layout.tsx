@@ -1,4 +1,5 @@
 import { Agentation } from 'agentation'
+import { I18nProvider } from '@pascal-app/editor/lib/i18n'
 import { GeistPixelSquare } from 'geist/font/pixel'
 import { Barlow } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -41,8 +42,10 @@ export default function RootLayout({
         )}
       </head>
       <body className="font-sans">
-        {children}
-        {process.env.NODE_ENV === 'development' && <Agentation />}
+        <I18nProvider>
+          {children}
+          {process.env.NODE_ENV === 'development' && <Agentation />}
+        </I18nProvider>
       </body>
     </html>
   )

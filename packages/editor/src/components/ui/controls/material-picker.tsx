@@ -2,6 +2,7 @@
 
 import { DEFAULT_MATERIALS, type MaterialPreset, type MaterialSchema } from '@pascal-app/core'
 import { useState } from 'react'
+import { useI18n } from '../../../lib/i18n'
 
 const PRESET_COLORS: Record<MaterialPreset, string> = {
   white: '#ffffff',
@@ -16,29 +17,21 @@ const PRESET_COLORS: Record<MaterialPreset, string> = {
   custom: '#ffffff',
 }
 
-const PRESET_LABELS: Record<MaterialPreset, string> = {
-  white: 'White',
-  brick: 'Brick',
-  concrete: 'Concrete',
-  wood: 'Wood',
-  glass: 'Glass',
-  metal: 'Metal',
-  plaster: 'Plaster',
-  tile: 'Tile',
-  marble: 'Marble',
-  custom: 'Custom',
-}
-
 type MaterialPickerProps = {
   value?: MaterialSchema
   onChange: (material: MaterialSchema) => void
 }
 
 export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
+  const { t } = useI18n()
   const [showCustom, setShowCustom] = useState<boolean>(value?.preset === 'custom' || !!value?.properties)
 
   const currentPreset = value?.preset || 'white'
   const currentProps = value?.properties || DEFAULT_MATERIALS[currentPreset]
+
+  const getPresetLabel = (preset: MaterialPreset): string => {
+    return t(`material.presets.${preset}`)
+  }
 
   const handlePresetChange = (preset: MaterialPreset) => {
     if (preset === 'custom') {
@@ -87,7 +80,7 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
               backgroundImage: preset === 'glass' ? 'linear-gradient(135deg, rgba(255,255,255,0.3) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.3) 75%, transparent 75%, transparent)' : undefined,
               backgroundSize: preset === 'glass' ? '8px 8px' : undefined,
             }}
-            title={PRESET_LABELS[preset]}
+            title={getPresetLabel(preset)}
             type="button"
           />
         ))}
@@ -96,7 +89,7 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
       {showCustom && (
         <div className="space-y-2 pt-2">
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500 w-16">Color</label>
+            <label className="text-xs text-gray-500 w-16">{t('material.color')}</label>
             <input
               className="h-7 w-12 rounded border border-gray-300 cursor-pointer"
               onChange={(e) => handlePropertyChange('color', e.target.value)}
@@ -112,7 +105,7 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500 w-16">Roughness</label>
+            <label className="text-xs text-gray-500 w-16">{t('material.roughness')}</label>
             <input
               className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               max={1}
@@ -126,7 +119,7 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500 w-16">Metalness</label>
+            <label className="text-xs text-gray-500 w-16">{t('material.metalness')}</label>
             <input
               className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               max={1}
@@ -140,7 +133,7 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500 w-16">Opacity</label>
+            <label className="text-xs text-gray-500 w-16">{t('material.opacity')}</label>
             <input
               className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               max={1}
@@ -160,15 +153,15 @@ export function MaterialPicker({ value, onChange }: MaterialPickerProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500 w-16">Side</label>
+            <label className="text-xs text-gray-500 w-16">{t('material.side')}</label>
             <select
               className="flex-1 h-7 px-2 text-xs border border-gray-300 rounded"
               onChange={(e) => handlePropertyChange('side', e.target.value as 'front' | 'back' | 'double')}
               value={currentProps.side}
             >
-              <option value="front">Front</option>
-              <option value="back">Back</option>
-              <option value="double">Double</option>
+              <option value="front">{t('material.sideFront')}</option>
+              <option value="back">{t('material.sideBack')}</option>
+              <option value="double">{t('material.sideDouble')}</option>
             </select>
           </div>
         </div>
