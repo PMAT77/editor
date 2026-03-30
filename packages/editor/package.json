@@ -4,7 +4,8 @@
   "description": "Pascal building editor component",
   "type": "module",
   "exports": {
-    ".": "./src/index.tsx"
+    ".": "./src/index.tsx",
+    "./lib/i18n": "./src/lib/i18n.tsx"
   },
   "scripts": {
     "check-types": "tsc --noEmit"

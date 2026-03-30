@@ -1,9 +1,18 @@
 {
   "extends": "@pascal/typescript-config/react-library.json",
   "compilerOptions": {
+    "outDir": "dist",
     "rootDir": "src",
-    "noEmit": true
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../viewer" }
+  ]
 }
