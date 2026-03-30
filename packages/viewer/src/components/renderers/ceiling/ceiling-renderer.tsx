@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react'
 import { float, mix, positionWorld, smoothstep } from 'three/tsl'
 import { BackSide, FrontSide, type Mesh, MeshBasicNodeMaterial } from 'three/webgpu'
 import { useNodeEvents } from '../../../hooks/use-node-events'
-import { createMaterial, DEFAULT_CEILING_MATERIAL } from '../../../lib/materials'
+import { DEFAULT_CEILING_MATERIAL } from '../../../lib/materials'
 import { NodeRenderer } from '../node-renderer'
 
 const gridScale = 5
@@ -40,13 +40,17 @@ export const CeilingRenderer = ({ node }: { node: CeilingNode }) => {
   const handlers = useNodeEvents(node, 'ceiling')
 
   const materials = useMemo(() => {
-    if (node.material) {
-      const props = node.material.properties
+    const mat = node.material
+    if (mat) {
+      const props = mat.properties
       const color = props?.color || '#999999'
       return createCeilingMaterials(color)
     }
-    return { topMaterial: createCeilingMaterials().topMaterial, bottomMaterial: DEFAULT_CEILING_MATERIAL }
-  }, [node.material])
+    return {
+      topMaterial: createCeilingMaterials().topMaterial,
+      bottomMaterial: DEFAULT_CEILING_MATERIAL,
+    }
+  }, [node.material, node.material?.preset, node.material?.properties, node.material?.texture])
 
   return (
     <mesh material={materials.bottomMaterial} ref={ref}>
